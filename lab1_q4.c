@@ -22,6 +22,18 @@ int max(int num1, int num2) {
     return (num1 > num2) ? num1 : num2;
 }
 
+int rob(int *arr, int start, int end) {
+    if (start == end) {
+        return arr[start];
+    } else if (end - start + 1 == 2) {
+        return max(arr[start], arr[end]);
+    } else if (end - start + 1 == 3) {
+        return max(arr[start] + arr[end], arr[start + 1]);
+    }
+
+    return arr[start] + rob(arr, start+2, end);
+}
+
 int main() {
     int nums[100], n;
     scanf("%d", &n);
@@ -29,14 +41,9 @@ int main() {
         scanf("%d", &nums[i]);
     }
     
-    int bag[n];
-    bag[0] = nums[0];
-    bag[1] = max(nums[0], nums[1]);
+    int rob_0 = rob(nums, 0, n-1);
+    int rob_1 = rob(nums, 1, n-1);
 
-    for (int i = 2; i < n; i++) {
-        bag[i] = max(bag[i-1], bag[i-2] + nums[i]);
-    }
-
-    printf("%d", bag[n-1]);
+    printf("%d", max(rob_0, rob_1));
     return 0;
 }
