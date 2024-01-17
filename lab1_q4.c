@@ -31,7 +31,7 @@ int rob(int *arr, int start, int end) {
         return max(arr[start] + arr[end], arr[start + 1]);
     }
 
-    return arr[start] + rob(arr, start+2, end);
+    return max(arr[start] + rob(arr, start+2, end), arr[start+1] + rob(arr, start+3, end));
 }
 
 int main() {
@@ -40,10 +40,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         scanf("%d", &nums[i]);
     }
-    
-    int rob_0 = rob(nums, 0, n-1);
-    int rob_1 = rob(nums, 1, n-1);
-
-    printf("%d", max(rob_0, rob_1));
+    printf("%d", rob(nums, 0, n-1));
     return 0;
 }
