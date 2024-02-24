@@ -85,7 +85,7 @@ void insertNode_Rear(node **head, int data) {
     }
 }
 
-void insertNode(node **head, int targetIndex, int data) {
+void insertNode_Index(node **head, int targetIndex, int data) {
     /*
         Inserts node at given index.
         Note: I am using 0-index. targetIndex=1 refers to the 2nd element in the linked list
@@ -202,6 +202,35 @@ void deleteNode_Index(node **head, int targetIndex) {
     }
 }
 
+void deleteNode_Value(node **head, int targetValue) {
+    /*
+        Deletes first occurence of targetValue from list.
+        O(n) time.
+    */
+    if ((*head) == NULL) {
+        return;
+    } else {
+        if ((*head) -> data == targetValue) {
+            deleteNode_Front(head);
+        } else {
+            node *prev = (*head);
+            node *curr = (*head) -> next;
+            while (curr != NULL) {
+                if (curr -> data == targetValue) {
+                    prev -> next = curr -> next;
+                    free(curr);
+                    break;
+                }
+                prev = prev -> next;
+                curr = curr -> next;
+            }
+            return;
+        }
+
+    }
+
+}
+
 void reverseNodeList(node **head) {
     node *prev = NULL, *next = NULL;
     node *curr = (*head);
@@ -222,7 +251,7 @@ int main() {
     char c;
     int data;
     int targetIndex;
-    int searchElement;
+    int targetElement;
     printf("---------------\nA - Display List\nB - Insert Element at head\nC - Insert Element at rear\nD - Insert Element\n");
     printf("E - Search\nF - Count nodes\n");
     printf("G - Delete Head Node\nH - Delete Rear node\nI - Delete node at index\nJ - Delete node by value\n");
@@ -244,11 +273,11 @@ int main() {
             case 'D':
                 printf("Index to insert at > "); scanf("%d", &targetIndex);
                 printf("Data to insert > ");scanf("%d", &data);
-                insertNode(&head, targetIndex, data);
+                insertNode_Index(&head, targetIndex, data);
                 break;
             case 'E':
-                printf("Element to search for > "); scanf("%d", &searchElement);
-                printf("Found at index : %d\n", search(head, searchElement));
+                printf("Element to search for > "); scanf("%d", &targetElement);
+                printf("Found at index : %d\n", search(head, targetElement));
                 break;
             case 'F':
                 printf("List has %d nodes\n", countNodes(head));    
@@ -263,6 +292,10 @@ int main() {
                 printf("Index to delete > "); scanf("%d", &targetIndex);
                 deleteNode_Index(&head, targetIndex);
             case 'J':
+                printf("Element to delete > "); scanf("%d", &targetElement);
+                deleteNode_Value(&head, targetElement);
+                break;
+            case 'K':
                 reverseNodeList(&head);
                 break;
             case '\n':
